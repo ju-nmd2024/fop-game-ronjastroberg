@@ -2,10 +2,6 @@ function setup() {
   createCanvas(900, 900);
 }
 
-// function draw() {
-//   background(255, 140, 0);
-// }
-
 function hotAirBalloon(x, y) {
   let lightBrown = color(176, 164, 132);
   let darkBrown = color(76, 52, 32);
@@ -86,27 +82,40 @@ function hotAirBalloon(x, y) {
   rect(x - 2, y - 5, 105, 15, 20);
 }
 
-let y = 100;
-let speed = 5;
-function draw() {
+let y = 0;
+let speed = 4;
+function gamescreen() {
   background(0, 180, 255);
   //clouds
   fill(253, 253, 253);
   noStroke();
-  ellipse(100, 150, 60);
-  ellipse(80, 170, 60);
-  ellipse(120, 170, 60);
-  ellipse(50, 180, 40);
-  ellipse(150, 180, 40);
+  ellipse(110, 150, 80);
+  ellipse(60, 190, 100);
+  ellipse(160, 190, 100);
+  ellipse(110, 200, 80);
 
-  //dessert
-  fill(231, 215, 190);
+  //sand
+  fill(191, 117, 75);
   rect(0, 800, 900, 100);
+
+  //dark pyramids
+  fill(115, 68, 52);
+  triangle(0, 800, 150, 550, 300, 800);
+  triangle(650, 800, 850, 500, 1000, 800);
+
+  //light pyramids
+  fill(191, 117, 75);
+  triangle(150, 800, 250, 650, 350, 800);
+  triangle(550, 800, 670, 600, 800, 800);
 
   hotAirBalloon(400, y);
   if (keyIsDown(32)) {
-    y = y - 40;
-  } else if (y < 800) {
+    y = y - 1;
+  } else if (y < 700) {
     y = y + speed;
   }
+}
+
+function draw() {
+  gamescreen();
 }
