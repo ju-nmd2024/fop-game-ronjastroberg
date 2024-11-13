@@ -157,7 +157,12 @@ function startScreen() {
 }
 
 let y = 0;
-let speed = 6;
+let speed = 5;
+let accelerationFactor = 1.04;
+let thrustSpeed = 15;
+let thrust = false;
+let thrusting = false;
+let thrustReduce = 0.95;
 function gamescreen() {
   background(0, 180, 255);
   //clouds
@@ -216,9 +221,19 @@ function gamescreen() {
 
   hotAirBalloon(400, y);
   if (keyIsDown(32)) {
-    y = y - 4;
-  } else if (y < 700) {
-    y = y + speed;
+    thrusting = true;
+    speed = -thrustSpeed * accelerationFactor;
+  } else if (thrusting) {
+    thrusting = false;
+    speed = (speed * thrustReduce, 3);
+  }
+  if (!thrusting) {
+    speed *= accelerationFactor;
+  }
+  y = y + speed;
+
+  if (y >= 740) {
+    speed = 0;
   }
 }
 
