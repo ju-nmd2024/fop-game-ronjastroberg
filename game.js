@@ -2,7 +2,7 @@ function setup() {
   createCanvas(900, 900);
 }
 
-function hotAirBalloon(x, y) {
+function hotAirBalloon(x, y, s) {
   let lightBrown = color(176, 164, 132);
   let darkBrown = color(76, 52, 32);
   let offWhite = color(237, 219, 180);
@@ -83,6 +83,13 @@ function hotAirBalloon(x, y) {
 }
 let cloudX = 100;
 let cloudsSpeed = 5;
+let y = 0;
+let speed = 5;
+let accelerationFactor = 1.04;
+let thrustSpeed = 15;
+let thrust = false;
+let thrusting = false;
+let thrustReduce = 0.95;
 
 function clouds(x, y) {
   fill(253, 253, 253);
@@ -151,59 +158,33 @@ function startScreen() {
   triangle(150, 800, 250, 650, 350, 800);
   triangle(550, 800, 670, 600, 800, 800);
 
+  //balloon
+  stroke(76, 52, 32);
+  strokeWeight(5);
+  line(390, 370, 410, 440);
+  line(530, 280, 470, 500);
+  noStroke();
+  fill(237, 219, 180);
+  ellipse(450, 240, 260, 320);
+  fill(240, 127, 79);
+  textSize(48);
+  text("BALLOON", 370, 240);
+  text("LANDER", 380, 280);
+
   //startbutton
   fill(240, 127, 79);
   rect(300, 420, 300, 100, 20);
+
+  //text on button
+  fill(237, 219, 180);
+  textSize(50);
+  textFont("Impact");
+  text("START GAME", 330, 490);
 }
 
-let y = 0;
-let speed = 5;
-let accelerationFactor = 1.04;
-let thrustSpeed = 15;
-let thrust = false;
-let thrusting = false;
-let thrustReduce = 0.95;
 function gamescreen() {
   background(0, 180, 255);
-  //clouds
-  fill(253, 253, 253);
-  noStroke();
-  ellipse(110, 150, 80);
-  ellipse(60, 190, 100);
-  ellipse(160, 190, 100);
-  ellipse(110, 200, 80);
-
-  push();
-  translate(750, 200);
-  ellipse(0, 0, 80);
-  ellipse(-50, 40, 100);
-  ellipse(40, 40, 100);
-  ellipse(0, 50, 80);
-  pop();
-
-  push();
-  translate(230, 415);
-  ellipse(0, 0, 80);
-  ellipse(-50, 40, 100);
-  ellipse(40, 40, 100);
-  ellipse(0, 50, 80);
-  pop();
-
-  push();
-  translate(660, 470);
-  ellipse(0, 0, 80);
-  ellipse(-50, 40, 100);
-  ellipse(40, 40, 100);
-  ellipse(0, 50, 80);
-  pop();
-
-  push();
-  translate(450, 90);
-  ellipse(0, 0, 80);
-  ellipse(-50, 40, 100);
-  ellipse(40, 40, 100);
-  ellipse(0, 50, 80);
-  pop();
+  clouds(100, 100);
 
   //sand
   fill(191, 117, 75);
@@ -237,7 +218,110 @@ function gamescreen() {
   }
 }
 
+function resultScreenYouWin() {
+  background(0, 180, 255);
+  noStroke();
+
+  clouds(cloudX, 100);
+  cloudX = cloudX + cloudsSpeed;
+  if (cloudX <= 0) {
+    cloudsSpeed = 5;
+  } else if (cloudX >= 300) {
+    cloudsSpeed = -5;
+  }
+
+  //sand
+  fill(191, 117, 75);
+  rect(0, 800, 900, 100);
+
+  //dark pyramids
+  fill(115, 68, 52);
+  triangle(0, 800, 150, 550, 300, 800);
+  triangle(650, 800, 850, 500, 1000, 800);
+
+  //light pyramids
+  fill(191, 117, 75);
+  triangle(150, 800, 250, 650, 350, 800);
+  triangle(550, 800, 670, 600, 800, 800);
+
+  //play again button
+  fill(240, 127, 79);
+  rect(300, 300, 300, 100, 20);
+
+  //play again text
+  fill(237, 219, 180);
+  textSize(50);
+  textFont("Impact");
+  text("PLAY AGAIN", 340, 370);
+
+  //home button
+  fill(240, 127, 79);
+  rect(300, 450, 300, 100, 20);
+
+  //home text
+  fill(237, 219, 180);
+  textSize(50);
+  textFont("Impact");
+  text("HOME", 390, 520);
+
+  //you win text
+  textSize(150);
+  text("YOU WIN!", 180, 200);
+}
+
+function resultScreenYouLose() {
+  background(0, 180, 255);
+  noStroke();
+
+  clouds(cloudX, 100);
+  cloudX = cloudX + cloudsSpeed;
+  if (cloudX <= 0) {
+    cloudsSpeed = 5;
+  } else if (cloudX >= 300) {
+    cloudsSpeed = -5;
+  }
+
+  //sand
+  fill(191, 117, 75);
+  rect(0, 800, 900, 100);
+
+  //dark pyramids
+  fill(115, 68, 52);
+  triangle(0, 800, 150, 550, 300, 800);
+  triangle(650, 800, 850, 500, 1000, 800);
+
+  //light pyramids
+  fill(191, 117, 75);
+  triangle(150, 800, 250, 650, 350, 800);
+  triangle(550, 800, 670, 600, 800, 800);
+
+  //play again button
+  fill(240, 127, 79);
+  rect(300, 300, 300, 100, 20);
+
+  //play again text
+  fill(237, 219, 180);
+  textSize(50);
+  textFont("Impact");
+  text("PLAY AGAIN", 340, 370);
+
+  //home button
+  fill(240, 127, 79);
+  rect(300, 450, 300, 100, 20);
+
+  //home text
+  fill(237, 219, 180);
+  textSize(50);
+  textFont("Impact");
+  text("HOME", 390, 520);
+
+  //you win text
+  textSize(150);
+  text("YOU LOSE!", 160, 200);
+}
 function draw() {
-  gamescreen();
+  // gamescreen();
   // startScreen();
+  // resultScreenYouWin();
+  resultScreenYouLose();
 }
