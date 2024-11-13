@@ -223,6 +223,6 @@ function gamescreen() {
 }
 
 function draw() {
-  // gamescreen();
-  startScreen();
+  gamescreen();
+  // startScreen();
 }
