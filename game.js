@@ -81,9 +81,83 @@ function hotAirBalloon(x, y) {
   fill(lightBrown);
   rect(x - 2, y - 5, 105, 15, 20);
 }
+let cloudX = 100;
+let cloudsSpeed = 5;
+
+function clouds(x, y) {
+  fill(253, 253, 253);
+  noStroke();
+  ellipse(x + 10, y + 50, 80);
+  ellipse(x - 40, y + 90, 100);
+  ellipse(x + 60, y + 90, 100);
+  ellipse(x + 10, y + 100, 80);
+
+  push();
+  translate(x + 650, y + 150);
+  ellipse(x - 100, y - 100, 80);
+  ellipse(x - 150, y - 60, 100);
+  ellipse(x - 50, y - 60, 100);
+  ellipse(x - 100, y - 50, 80);
+  pop();
+
+  push();
+  translate(x + 130, y + 300);
+  ellipse(x - 100, y - 100, 80);
+  ellipse(x - 150, y - 60, 100);
+  ellipse(x - 60, y - 60, 100);
+  ellipse(x - 100, y - 50, 80);
+  pop();
+
+  push();
+  translate(x + 550, y + 360);
+  ellipse(x - 100, y - 100, 80);
+  ellipse(x - 150, y - 60, 100);
+  ellipse(x - 60, y - 60, 100);
+  ellipse(x - 100, y - 50, 80);
+  pop();
+
+  push();
+  translate(x + 350, y - 10);
+  ellipse(x - 100, y - 100, 80);
+  ellipse(x - 150, y - 60, 100);
+  ellipse(x - 60, y - 60, 100);
+  ellipse(x - 100, y - 50, 80);
+  pop();
+}
+
+function startScreen() {
+  background(0, 180, 255);
+  noStroke();
+
+  clouds(cloudX, 100);
+  cloudX = cloudX + cloudsSpeed;
+  if (cloudX <= 0) {
+    cloudsSpeed = 5;
+  } else if (cloudX >= 300) {
+    cloudsSpeed = -5;
+  }
+
+  //sand
+  fill(191, 117, 75);
+  rect(0, 800, 900, 100);
+
+  //dark pyramids
+  fill(115, 68, 52);
+  triangle(0, 800, 150, 550, 300, 800);
+  triangle(650, 800, 850, 500, 1000, 800);
+
+  //light pyramids
+  fill(191, 117, 75);
+  triangle(150, 800, 250, 650, 350, 800);
+  triangle(550, 800, 670, 600, 800, 800);
+
+  //startbutton
+  fill(240, 127, 79);
+  rect(300, 420, 300, 100, 20);
+}
 
 let y = 0;
-let speed = 4;
+let speed = 6;
 function gamescreen() {
   background(0, 180, 255);
   //clouds
@@ -93,6 +167,38 @@ function gamescreen() {
   ellipse(60, 190, 100);
   ellipse(160, 190, 100);
   ellipse(110, 200, 80);
+
+  push();
+  translate(750, 200);
+  ellipse(0, 0, 80);
+  ellipse(-50, 40, 100);
+  ellipse(40, 40, 100);
+  ellipse(0, 50, 80);
+  pop();
+
+  push();
+  translate(230, 415);
+  ellipse(0, 0, 80);
+  ellipse(-50, 40, 100);
+  ellipse(40, 40, 100);
+  ellipse(0, 50, 80);
+  pop();
+
+  push();
+  translate(660, 470);
+  ellipse(0, 0, 80);
+  ellipse(-50, 40, 100);
+  ellipse(40, 40, 100);
+  ellipse(0, 50, 80);
+  pop();
+
+  push();
+  translate(450, 90);
+  ellipse(0, 0, 80);
+  ellipse(-50, 40, 100);
+  ellipse(40, 40, 100);
+  ellipse(0, 50, 80);
+  pop();
 
   //sand
   fill(191, 117, 75);
@@ -110,12 +216,13 @@ function gamescreen() {
 
   hotAirBalloon(400, y);
   if (keyIsDown(32)) {
-    y = y - 1;
+    y = y - 4;
   } else if (y < 700) {
     y = y + speed;
   }
 }
 
 function draw() {
-  gamescreen();
+  // gamescreen();
+  startScreen();
 }
