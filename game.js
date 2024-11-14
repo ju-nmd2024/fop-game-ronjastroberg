@@ -1,6 +1,12 @@
 function setup() {
   createCanvas(900, 900);
 }
+let cloudX = 100;
+let cloudsSpeed = 5;
+let y = 0;
+let gravity = 0.15;
+let velocity = 0.6;
+let gameState = true;
 
 function hotAirBalloon(x, y, s) {
   let lightBrown = color(176, 164, 132);
@@ -81,15 +87,6 @@ function hotAirBalloon(x, y, s) {
   fill(lightBrown);
   rect(x - 2, y - 5, 105, 15, 20);
 }
-let cloudX = 100;
-let cloudsSpeed = 5;
-let y = 0;
-let speed = 5;
-let accelerationFactor = 1.05;
-let thrustSpeed = 15;
-let thrust = false;
-let thrusting = false;
-let thrustReduce = 0.95;
 
 function clouds(x, y) {
   fill(253, 253, 253);
@@ -200,21 +197,22 @@ function gameScreen() {
   triangle(150, 800, 250, 650, 350, 800);
   triangle(550, 800, 670, 600, 800, 800);
 
-  hotAirBalloon(400, y);
-  if (keyIsDown(32)) {
-    thrusting = true;
-    speed = -thrustSpeed * accelerationFactor;
-  } else if (thrusting) {
-    thrusting = false;
-    speed = (speed * thrustReduce, 3);
-  }
-  if (!thrusting) {
-    speed *= accelerationFactor;
-  }
-  y = y + speed;
+  //landing place
+  fill(0, 0, 0, 150);
+  ellipse(450, 850, 100, 20);
 
-  if (y >= 740) {
-    speed = 0;
+  hotAirBalloon(400, y);
+  if (gameState === true) {
+    if (keyIsDown(32)) {
+      gravity = -0.3;
+    } else {
+      gravity = 0.1;
+    }
+    velocity = velocity + gravity;
+    y = y + velocity;
+  }
+  if (y > 750) {
+    gameState = false;
   }
 }
 
@@ -265,6 +263,7 @@ function resultScreenYouWin() {
   text("HOME", 390, 520);
 
   //you win text
+  fill(83, 161, 40);
   textSize(150);
   text("YOU WIN!", 180, 200);
 }
@@ -316,12 +315,14 @@ function resultScreenYouLose() {
   text("HOME", 390, 520);
 
   //you win text
+  fill(145, 18, 24);
   textSize(150);
   text("YOU LOSE!", 160, 200);
 }
 
 let state = "Start";
 function draw() {
+  console.log(velocity);
   if (state === "Start") {
     startScreen();
   } else if (state === "Game") {
@@ -331,10 +332,10 @@ function draw() {
   } else if (state === "ResultYouWin") {
     resultScreenYouWin();
   }
-  if (y >= 745 && y <= 750 && speed > 5) {
+  if (y > 750 && velocity > 10) {
     state = "ResultYouLose";
   }
-  if (y >= 745 && speed < 1) {
+  if (y > 750 && velocity < 4) {
     state = "ResultYouWin";
   }
 }
@@ -355,7 +356,7 @@ function mouseClicked() {
     mouseY >= 420 &&
     mouseY <= 520
   ) {
-    state = "Game";
+    state = "Start";
   }
   if (
     state === "ResultYouWin" &&
@@ -365,5 +366,14 @@ function mouseClicked() {
     mouseY <= 550
   ) {
     state = "Start";
+  }
+  if (
+    state === "ResultYouLose" &&
+    mouseX >= 300 &&
+    mouseX <= 600 &&
+    mouseY >= 300 &&
+    mouseY <= 400
+  ) {
+    state = "Game";
   }
 }
