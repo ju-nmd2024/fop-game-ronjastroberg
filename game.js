@@ -85,7 +85,7 @@ let cloudX = 100;
 let cloudsSpeed = 5;
 let y = 0;
 let speed = 5;
-let accelerationFactor = 1.04;
+let accelerationFactor = 1.05;
 let thrustSpeed = 15;
 let thrust = false;
 let thrusting = false;
@@ -182,7 +182,7 @@ function startScreen() {
   text("START GAME", 330, 490);
 }
 
-function gamescreen() {
+function gameScreen() {
   background(0, 180, 255);
   clouds(100, 100);
 
@@ -319,9 +319,51 @@ function resultScreenYouLose() {
   textSize(150);
   text("YOU LOSE!", 160, 200);
 }
+
+let state = "Start";
 function draw() {
-  // gamescreen();
-  // startScreen();
-  // resultScreenYouWin();
-  resultScreenYouLose();
+  if (state === "Start") {
+    startScreen();
+  } else if (state === "Game") {
+    gameScreen();
+  } else if (state === "ResultYouLose") {
+    resultScreenYouLose();
+  } else if (state === "ResultYouWin") {
+    resultScreenYouWin();
+  }
+  if (y >= 745 && y < 750 && speed > 5) {
+    state = "ResultYouLose";
+  }
+  if (y >= 745 && speed < 1) {
+    state = "ResultYouWin";
+  }
+}
+
+function mouseClicked() {
+  if (
+    state === "Start" &&
+    mouseX >= 300 &&
+    mouseX <= 600 &&
+    mouseY >= 420 &&
+    mouseY <= 520
+  ) {
+    state = "Game";
+  } else if (
+    state === "ResultYouLose" &&
+    mouseX >= 300 &&
+    mouseX <= 600 &&
+    mouseY >= 420 &&
+    mouseY <= 520
+  ) {
+    state = "Game";
+  }
+  if (
+    state === "ResultYouWin" &&
+    mouseX >= 300 &&
+    mouseX <= 600 &&
+    mouseY >= 450 &&
+    mouseY <= 550
+  ) {
+    state = "Start";
+  }
 }
