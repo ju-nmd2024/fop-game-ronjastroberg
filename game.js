@@ -331,7 +331,7 @@ function draw() {
   } else if (state === "ResultYouWin") {
     resultScreenYouWin();
   }
-  if (y >= 745 && y < 750 && speed > 5) {
+  if (y >= 745 && y <= 750 && speed > 5) {
     state = "ResultYouLose";
   }
   if (y >= 745 && speed < 1) {
