@@ -7,8 +7,9 @@ let y = 0;
 let gravity = 0.15;
 let velocity = 0.6;
 let gameState = true;
+let state = "Start";
 
-function hotAirBalloon(x, y, s) {
+function hotAirBalloon(x, y) {
   let lightBrown = color(176, 164, 132);
   let darkBrown = color(76, 52, 32);
   let offWhite = color(237, 219, 180);
@@ -204,15 +205,19 @@ function gameScreen() {
   hotAirBalloon(400, y);
   if (gameState === true) {
     if (keyIsDown(32)) {
-      gravity = -0.3;
+      gravity = -0.8;
     } else {
-      gravity = 0.1;
+      gravity = 0.15;
     }
     velocity = velocity + gravity;
     y = y + velocity;
   }
-  if (y > 750) {
-    gameState = false;
+
+  if (y > 750 && velocity > 4) {
+    state = "ResultYouLose";
+  }
+  if (y > 750 && velocity < 4) {
+    state = "ResultYouWin";
   }
 }
 
@@ -242,8 +247,12 @@ function resultScreenYouWin() {
   triangle(150, 800, 250, 650, 350, 800);
   triangle(550, 800, 670, 600, 800, 800);
 
+  //hot air balloon
+  hotAirBalloon(410, 750);
+
+  noStroke();
   //play again button
-  fill(240, 127, 79);
+  fill(115, 68, 52);
   rect(300, 300, 300, 100, 20);
 
   //play again text
@@ -253,7 +262,7 @@ function resultScreenYouWin() {
   text("PLAY AGAIN", 340, 370);
 
   //home button
-  fill(240, 127, 79);
+  fill(115, 68, 52);
   rect(300, 450, 300, 100, 20);
 
   //home text
@@ -318,11 +327,16 @@ function resultScreenYouLose() {
   fill(145, 18, 24);
   textSize(150);
   text("YOU LOSE!", 160, 200);
+
+  //hot air ballon rotation
+  push();
+  translate(450, 750);
+  rotate(HALF_PI);
+  hotAirBalloon(0, 0);
+  pop();
 }
 
-let state = "Start";
 function draw() {
-  console.log(velocity);
   if (state === "Start") {
     startScreen();
   } else if (state === "Game") {
@@ -331,12 +345,6 @@ function draw() {
     resultScreenYouLose();
   } else if (state === "ResultYouWin") {
     resultScreenYouWin();
-  }
-  if (y > 750 && velocity > 10) {
-    state = "ResultYouLose";
-  }
-  if (y > 750 && velocity < 4) {
-    state = "ResultYouWin";
   }
 }
 
@@ -349,7 +357,12 @@ function mouseClicked() {
     mouseY <= 520
   ) {
     state = "Game";
-  } else if (
+    gameState = true;
+    y = 0;
+    gravity = 0.15;
+    velocity = 0.6;
+  }
+  if (
     state === "ResultYouLose" &&
     mouseX >= 300 &&
     mouseX <= 600 &&
@@ -357,7 +370,20 @@ function mouseClicked() {
     mouseY <= 520
   ) {
     state = "Start";
+  } else if (
+    state === "ResultYouLose" &&
+    mouseX >= 300 &&
+    mouseX <= 600 &&
+    mouseY >= 300 &&
+    mouseY <= 400
+  ) {
+    state = "Game";
+    gameState = true;
+    y = 0;
+    gravity = 0.15;
+    velocity = 0.6;
   }
+
   if (
     state === "ResultYouWin" &&
     mouseX >= 300 &&
@@ -366,14 +392,17 @@ function mouseClicked() {
     mouseY <= 550
   ) {
     state = "Start";
-  }
-  if (
-    state === "ResultYouLose" &&
+  } else if (
+    state === "ResultYouWin" &&
     mouseX >= 300 &&
     mouseX <= 600 &&
     mouseY >= 300 &&
     mouseY <= 400
   ) {
     state = "Game";
+    gameState = true;
+    y = 0;
+    gravity = 0.15;
+    velocity = 0.6;
   }
 }
