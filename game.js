@@ -8,6 +8,8 @@ let gravity = 0.15;
 let velocity = 0.6;
 let gameState = true;
 let state = "Start";
+let shadowWidth = 0;
+let shadowHeight = 0;
 
 function hotAirBalloon(x, y) {
   let lightBrown = color(176, 164, 132);
@@ -199,8 +201,8 @@ function gameScreen() {
   triangle(550, 800, 670, 600, 800, 800);
 
   //landing place
-  fill(0, 0, 0, 150);
-  ellipse(450, 850, 100, 20);
+  fill(0, 0, 0, 100);
+  ellipse(450, 850, shadowWidth, shadowHeight);
 
   hotAirBalloon(400, y);
   if (gameState === true) {
@@ -211,6 +213,8 @@ function gameScreen() {
     }
     velocity = velocity + gravity;
     y = y + velocity;
+    shadowWidth = (y / 750) * 200;
+    shadowHeight = (y / 750) * 80;
   }
 
   if (y > 750 && velocity > 4) {
@@ -224,6 +228,8 @@ function gameScreen() {
 function resultScreenYouWin() {
   background(0, 180, 255);
   noStroke();
+
+  //moving clouds
 
   clouds(cloudX, 100);
   cloudX = cloudX + cloudsSpeed;
@@ -247,10 +253,15 @@ function resultScreenYouWin() {
   triangle(150, 800, 250, 650, 350, 800);
   triangle(550, 800, 670, 600, 800, 800);
 
+  //landing place
+  fill(0, 0, 0, 100);
+  ellipse(460, 850, shadowWidth, shadowHeight);
+
   //hot air balloon
   hotAirBalloon(410, 750);
 
   noStroke();
+
   //play again button
   fill(115, 68, 52);
   rect(300, 300, 300, 100, 20);
