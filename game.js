@@ -136,6 +136,7 @@ function startScreen() {
   background(0, 180, 255);
   noStroke();
 
+  //moving cloouds
   clouds(cloudX, 100);
   cloudX = cloudX + cloudsSpeed;
   if (cloudX <= 0) {
@@ -184,6 +185,8 @@ function startScreen() {
 
 function gameScreen() {
   background(0, 180, 255);
+
+  //clouds
   clouds(100, 100);
 
   //sand
@@ -230,7 +233,6 @@ function resultScreenYouWin() {
   noStroke();
 
   //moving clouds
-
   clouds(cloudX, 100);
   cloudX = cloudX + cloudsSpeed;
   if (cloudX <= 0) {
@@ -292,6 +294,7 @@ function resultScreenYouLose() {
   background(0, 180, 255);
   noStroke();
 
+  //moving clouds
   clouds(cloudX, 100);
   cloudX = cloudX + cloudsSpeed;
   if (cloudX <= 0) {
