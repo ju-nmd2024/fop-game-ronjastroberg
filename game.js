@@ -255,10 +255,10 @@ function resultScreenYouWin() {
 
   //landing place
   fill(0, 0, 0, 100);
-  ellipse(460, 850, shadowWidth, shadowHeight);
+  ellipse(450, 850, shadowWidth, shadowHeight);
 
   //hot air balloon
-  hotAirBalloon(410, 750);
+  hotAirBalloon(400, 750);
 
   noStroke();
 
